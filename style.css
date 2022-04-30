@@ -1,0 +1,44 @@
+body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}
+
+#mainDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 550px;
+    height: 550px;
+    background-color: rgb(224, 185, 30);
+    outline: 3px solid black;
+}
+
+table{
+    outline: 3px solid black;
+    border-collapse: collapse;
+}
+
+tr:nth-child(even) td:nth-child(even) {
+    background-color: rgb(255, 255, 255);
+}
+
+tr:nth-child(odd) td:nth-child(odd) {
+    background-color: rgb(255, 255, 255);
+}
+tr:nth-child(even) td:nth-child(odd) {
+    background-color: rgb(38, 38, 38);
+}
+
+tr:nth-child(odd) td:nth-child(even) {
+    background-color: rgb(38, 38, 38);
+}
+
+td{
+    height: 50px;
+    width: 50px;
+    outline: 1px solid black;
+    user-select: none;
+}
