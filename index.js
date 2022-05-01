@@ -120,13 +120,14 @@ function posibleMoves(row, col, board, turn, clickesArr) {
                     if (moves[i][0] === clickesArr[0].getRow() + tmp) {
                         tmpMoves.push(moves[i]);
                     }else if (moves[i][0] !== clickesArr[0].getRow() + tmp) {
-                        table.rows[moves[i][0]].cells[moves[i][1]].classList.remove("moves");
+                        table.rows[moves[i][0]].cells[moves[i][1]].classList.add("notOption");
                     }
                 }
             }
             moves = tmpMoves;
         }
     }
+    moves.push([row, col]);
     return moves;
 }
 
@@ -142,6 +143,9 @@ window.addEventListener("load", (e) => {
     let clickesArr = [];
 
     let moves = [];
+
+    let whiteEats = 0;
+    let blackEats = 0;
 
     choseColor.addEventListener('click', (event) => {
         //this event chenges the turn varible when the player click on the start game button
@@ -177,7 +181,6 @@ window.addEventListener("load", (e) => {
         if (e.target.tagName === "IMG") {
             let clickRow = e.target.parentElement.parentElement.rowIndex;
             let clickCol = e.target.parentElement.cellIndex;
-
             //here i manege the turn system
             if (clickesArr.length === 0 && e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png") {
                 clickesArr.push(board.getBoard()[clickRow][clickCol]);
@@ -199,8 +202,51 @@ window.addEventListener("load", (e) => {
             let clickCol = e.target.cellIndex;
             let validMove = false;
             clearPreviuseClick(board);
-
+            //if you chouse to eat piece she will be removed and count of eating will go up
             if (clickesArr.length === 1) {
+                if(moves.length > 1){
+                    if(turn === "black"){
+                        if(moves[moves.length-1][0] === clickRow - 2){
+                            if(clickCol < moves[moves.length-1][1]){
+                                board.getBoard()[clickRow-1][clickCol+1].removeImgFromTd();
+                                board.getBoard()[clickRow-1][clickCol+1] = undefined;
+                                whiteEats ++;
+                            }else if(clickCol > moves[moves.length-1][1]){
+                                board.getBoard()[clickRow-1][clickCol-1].removeImgFromTd();
+                                board.getBoard()[clickRow-1][clickCol-1] = undefined;
+                                whiteEats ++;
+                            }
+                        }
+                    }else if(turn === "white"){
+                        if(moves[moves.length-1][0] === clickRow + 2){
+                            if(clickCol < moves[moves.length-1][1]){
+                                board.getBoard()[clickRow+1][clickCol+1].removeImgFromTd();
+                                board.getBoard()[clickRow+1][clickCol+1] = undefined;
+                                blackEats ++;
+                            }else if(clickCol > moves[moves.length-1][1]){
+                                board.getBoard()[clickRow+1][clickCol-1].removeImgFromTd();
+                                board.getBoard()[clickRow+1][clickCol-1] = undefined;
+                                blackEats ++;
+                            }
+                        }
+                    }
+                }
+                
+                //chacks for winner
+                if(whiteEats === 12){
+                    let p = document.getElementById("winner");
+                    let mainDiv = document.getElementById("mainDiv");
+                    mainDiv.style.display = "none";
+                    p.textContent = turn.toUpperCase() + " YOU ARE THE WINNER !";
+                    playAgain.style.display = "flex";
+                }else if(blackEats === 12){
+                    let p = document.getElementById("winner");
+                    let mainDiv = document.getElementById("mainDiv");
+                    mainDiv.style.display = "none";
+                    p.textContent = turn.toUpperCase() + " YOU ARE THE WINNER !";
+                    playAgain.style.display = "flex";
+                }
+
                 //chacks if the move is valid [valide moves store in moves array]
                 moves.forEach((move) => {
                     if (clickRow === move[0] && clickCol === move[1]) {

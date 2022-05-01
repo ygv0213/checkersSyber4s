@@ -124,6 +124,9 @@ img{
 .moves{
     background-color: rgb(160, 255, 105)!important;
 }
+.notOption{
+    background-color: rgb(255, 75, 75)!important;
+}
 
 #showWinning{
     display: none;
@@ -137,7 +140,7 @@ img{
     border-radius: 15px;
 }
 
-#showWinning p{
+#winner{
     display: flex;
     flex-direction: row;
     align-items: center;

@@ -6,11 +6,19 @@ class Piece {
         this.quinn = false;
         this.src = "assetes/"+this.color+"Piece.png";
         this.img = document.createElement("img");
+        this.td = undefined;
         this.setImgSrc(this.src);
     }
 
     draw(td){
+        this.td = td;
         td.appendChild(this.img);
+    }
+
+    removeImgFromTd(){
+        if(this.td !== undefined){
+            this.td.removeChild(this.img);
+        }
     }
 
     addId(id){
