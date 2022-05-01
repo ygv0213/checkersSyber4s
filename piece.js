@@ -42,6 +42,10 @@ class Piece {
         this.img.setAttribute('src', this.src);
     }
 
+    isAquinn(){
+        return this.quinn;
+    }
+
     mackQuinn() {
         this.quinn = true;
         this.setImgSrc("assetes/"+this.color+"Quinn.png");

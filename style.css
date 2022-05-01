@@ -124,3 +124,41 @@ img{
 .moves{
     background-color: rgb(160, 255, 105)!important;
 }
+
+#showWinning{
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    outline: 2px solid black;
+    padding: 20px;
+    width: fit-content;
+    height: 100px;
+    background-color: black;
+    border-radius: 15px;
+}
+
+#showWinning p{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: aliceblue;
+    font-family: monospace;
+    font-size: 30px;
+    font-weight: 900;
+    background-color: rgb(0, 0, 0);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    margin: 0;
+    padding: 10px;
+}
+
+#playAgain{
+    font-size: 24px;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    margin-top: 15px;
+}
