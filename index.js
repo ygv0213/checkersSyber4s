@@ -29,7 +29,7 @@ function posibleMoves(row, col, event, board, turn) {
     let moves = [];
 
     let table = document.getElementsByTagName("table")[0];
-    if(board[row][col].isAquinn() === false){
+    if (board[row][col].isAquinn() === false) {
         if (board[row][col].getColor() === "black" && turn === "black") {
             if (row + 1 < 8 && col + 1 < 8) {
                 if (board[row + 1][col + 1] === undefined) {
@@ -85,7 +85,6 @@ function posibleMoves(row, col, event, board, turn) {
 
     return moves;
 }
-
 window.addEventListener("load", (e) => {
     let turn = undefined;
     let choseColor = document.getElementById("choseColor1");
@@ -96,7 +95,7 @@ window.addEventListener("load", (e) => {
     board.drawBoard();
 
     let clickesArr = [];
-    
+
     let moves = [];
 
     choseColor.addEventListener('click', (event) => {
@@ -117,8 +116,8 @@ window.addEventListener("load", (e) => {
         }
     });
 
-    playAgain.addEventListener("click", (e)=>{
-        if(e.target.id === "playAgain"){
+    playAgain.addEventListener("click", (e) => {
+        if (e.target.id === "playAgain") {
             window.location.reload();
             console.log("end")
         }
@@ -161,18 +160,24 @@ window.addEventListener("load", (e) => {
                     }
                 });
                 if (validMove === true) {
+                    //change the turn and check if you need to turn the piece to quinn if so the piece turn to quinn
+                    if (turn === "black") {
+                        turn = "white";
+                        if (clickRow === 7 && clickesArr[0].isAquinn() !== true) {
+                            clickesArr[0].mackQuinn();
+                        }
+                    } else {
+                        turn = "black";
+                        if (clickRow === 0 && clickesArr[0].isAquinn() !== true) {
+                            clickesArr[0].mackQuinn();
+                        }
+                    }
                     board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
                     clickesArr[0].setIndex(clickRow, clickCol);
                     board.getBoard()[clickRow][clickCol] = clickesArr[0];
                     clickesArr[0].draw(e.target);
                     clickesArr = [];
-                    if (turn === "black") {
-                        turn = "white";
-                    } else {
-                        turn = "black";
-                    }
                     visualTurn.textContent = "This is " + turn + " turn now";
-                    console.log(board.getBoard())
                 }
             }
         }
