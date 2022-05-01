@@ -37,6 +37,11 @@ class Piece {
         return this.color;
     }
 
+    setIndex(row, col){
+        this.row = row;
+        this.col = col;
+    }
+
     setImgSrc(src){
         this.src = src;
         this.img.setAttribute('src', this.src);

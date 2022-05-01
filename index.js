@@ -62,10 +62,22 @@ function posibleMoves(row, col, event, board, turn) {
                     table.rows[row - 1].cells[col - 1].classList.add("moves");
                 }
             }
+            if (row - 2 > -1 && col - 2 > -1) {
+                if (board[row - 1][col - 1] !== undefined && board[row - 1][col - 1].getColor() === "black" && board[row - 2][col - 2] === undefined) {
+                    moves.push([row - 2, col - 2]);
+                    table.rows[row - 2].cells[col - 2].classList.add("moves");
+                }
+            }
             if (row - 1 > -1 && col + 1 < 8) {
                 if (board[row - 1][col + 1] === undefined) {
                     moves.push([row - 1, col + 1]);
                     table.rows[row - 1].cells[col + 1].classList.add("moves");
+                }
+            }
+            if (row - 2 > -1 && col + 2 < 8) {
+                if (board[row - 1][col + 1] !== undefined && board[row - 1][col + 1].getColor() === "black" && board[row - 2][col + 2] === undefined) {
+                    moves.push([row - 2, col + 2]);
+                    table.rows[row - 2].cells[col + 2].classList.add("moves");
                 }
             }
         }
@@ -84,6 +96,7 @@ window.addEventListener("load", (e) => {
     board.drawBoard();
 
     let clickesArr = [];
+    
     let moves = [];
 
     choseColor.addEventListener('click', (event) => {
@@ -148,13 +161,10 @@ window.addEventListener("load", (e) => {
                     }
                 });
                 if (validMove === true) {
-                    //i am here
-                    clickesArr.push(board.getBoard()[clickRow][clickCol]);
+                    board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
+                    clickesArr[0].setIndex(clickRow, clickCol);
                     board.getBoard()[clickRow][clickCol] = clickesArr[0];
                     clickesArr[0].draw(e.target);
-                    clickesArr.push(clickesArr[0]);
-                    board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
-                    clickesArr.shift();
                     clickesArr = [];
                     if (turn === "black") {
                         turn = "white";
@@ -162,6 +172,7 @@ window.addEventListener("load", (e) => {
                         turn = "black";
                     }
                     visualTurn.textContent = "This is " + turn + " turn now";
+                    console.log(board.getBoard())
                 }
             }
         }
