@@ -1,5 +1,5 @@
 # checkersSyber4s
 
-down below there is the explanation video
+down below there is the project explanation video
 ------------------------------------------
 
