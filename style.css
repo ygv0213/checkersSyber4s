@@ -37,7 +37,7 @@ body{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    color: rgb(0, 0, 0);
+    color: rgb(25, 23, 23);
     margin: 0;
 }
 
@@ -71,10 +71,10 @@ body{
 #mainDiv{
     display: none;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     width: 550px;
-    height: 500px;
+    height: 520px;
     background-color: rgb(224, 185, 30);
     outline: 3px solid black;
 }
@@ -100,8 +100,6 @@ tr:nth-child(odd) td:nth-child(even) {
     background-color: rgb(38, 38, 38);
 }
 
-
-
 td{
     text-align: center;
     justify-content: center;
@@ -120,9 +118,9 @@ img{
 }
 
 .selected{
-    background-color: rgb(255, 253, 125);
+    background-color: rgb(255, 253, 125)!important;
 }
 
 .moves{
-    background-color: rgb(160, 255, 105);
+    background-color: rgb(160, 255, 105)!important;
 }

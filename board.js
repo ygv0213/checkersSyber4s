@@ -36,7 +36,7 @@ class Board {
         let td = document.createElement("td");
 
         div.id = "mainDiv";
-
+    
         this.whitePlayer.mackPlayer();
         this.blackPlayer.mackPlayer();
 
