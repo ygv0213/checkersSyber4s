@@ -24,7 +24,7 @@ function addCurrentClick(board, clickRow, clickCol) {
     }
 }
 
-function posibleMoves(row, col, event, board, turn) {
+function posibleMoves(row, col, board, turn) {
     //this function decided where the piece can go on the board
     let moves = [];
 
@@ -85,6 +85,7 @@ function posibleMoves(row, col, event, board, turn) {
 
     return moves;
 }
+
 window.addEventListener("load", (e) => {
     let turn = undefined;
     let choseColor = document.getElementById("choseColor1");
@@ -128,14 +129,17 @@ window.addEventListener("load", (e) => {
            if the user clickes on img its chacked if this is the currect turn if so it show him the posible moves
            if the user clicked on anather turn piece it block him from do it
            if the user clicked on td [empty cell] so its chacked if it can be move ther if so it moves ale to nothing  */
+        let eatOption = false;
+
         if (e.target.tagName === "IMG") {
             let clickRow = e.target.parentElement.parentElement.rowIndex;
             let clickCol = e.target.parentElement.cellIndex;
 
             clearPreviuseClick(board);
             addCurrentClick(board, clickRow, clickCol);
-            moves = posibleMoves(clickRow, clickCol, e, board.getBoard(), turn);
+            moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn);
 
+            //here i manege the turn system
             if (clickesArr.length === 0 && e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png") {
                 clickesArr.push(board.getBoard()[clickRow][clickCol]);
             } else if (clickesArr.length === 1 && e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png") {
@@ -144,21 +148,60 @@ window.addEventListener("load", (e) => {
             } else if (clickesArr.length === 1 && e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") !== turn + "Piece.png") {
                 clickesArr = [];
             }
+            //if there option to eat eatOption become to true
+            moves.forEach((move) => {
+                let tmp = 0;
+
+                if (turn === "black") {
+                    tmp = 2;
+                } else if (turn === "white") {
+                    tmp = -2;
+                }
+
+                if (clickesArr.length === 1 && clickesArr[0] !== undefined) {
+                    if (move[0] === clickesArr[0].getRow() + tmp) {
+                        eatOption = true;
+                    }
+                }
+            });
+            
+            //chacks if there is option to eat if so all other option will be removed
+            if(eatOption === true){
+                let tmp = 0;
+                let tmpMoves = [];
+
+                if (turn === "black") {
+                    tmp = 2;
+                } else if (turn === "white") {
+                    tmp = -2;
+                }
+
+                for (let i = 0; i < moves.length; i++) {
+                    for (let j = 0; j < moves[i].length; j++) {
+                        if (moves[i][0] === clickesArr[0].getRow() + tmp) {
+                            tmpMoves.push(moves[i]);
+                        }
+                    }
+                }
+                moves = tmpMoves;
+            }
         }
 
         if (e.target.tagName === "TD") {
+            //save click index and status of move [if its valid or not]
             let clickRow = e.target.parentElement.rowIndex;
             let clickCol = e.target.cellIndex;
             let validMove = false;
-
             clearPreviuseClick(board);
 
             if (clickesArr.length === 1) {
+                //chacks if the move is valid [valide moves store in moves array]
                 moves.forEach((move) => {
                     if (clickRow === move[0] && clickCol === move[1]) {
                         validMove = true;
                     }
                 });
+
                 if (validMove === true) {
                     //change the turn and check if you need to turn the piece to quinn if so the piece turn to quinn
                     if (turn === "black") {
@@ -172,6 +215,7 @@ window.addEventListener("load", (e) => {
                             clickesArr[0].mackQuinn();
                         }
                     }
+                    //if the move is valid then move the piece
                     board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
                     clickesArr[0].setIndex(clickRow, clickCol);
                     board.getBoard()[clickRow][clickCol] = clickesArr[0];
