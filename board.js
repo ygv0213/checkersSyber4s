@@ -19,6 +19,7 @@ class Board {
     }
     
     setBoard(){
+        //this method set all board default values to undefinted
         for(let i = 0;i<8;i++){
             let row = [];
             for(let j=0;j<8;j++){
@@ -28,7 +29,8 @@ class Board {
         }
     }
 
-    drawBoard(){
+    drawBoard(){ 
+        //this method darw the board and adding the pieces to the array board
         let table = document.createElement("table");
         let body = document.getElementsByTagName("body")[0];
         let div = document.createElement("div");

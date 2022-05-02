@@ -33,6 +33,7 @@ function posibleMoves(row, col, board, turn, clickesArr) {
 
     let table = document.getElementsByTagName("table")[0];
     if (board[row][col].isAquinn() === false) {
+        //this is the posible moves to pieces
         if (board[row][col].getColor() === "black" && turn === "black") {
             if (row + 1 < 8 && col + 1 < 8) {
                 if (board[row + 1][col + 1] === undefined) {
@@ -126,7 +127,7 @@ function posibleMoves(row, col, board, turn, clickesArr) {
             moves = tmpMoves;
         }
     }else if(board[row][col].isAquinn() === true && board[row][col].getColor() === turn) {
-        //this is the caculation of quinns posible moves
+        //this is the posible moves to quinns
         let options = [[1, 1], [-1, -1], [1, -1], [-1, 1]];
         let tmp = 8;
         moves = [];
@@ -150,10 +151,22 @@ function posibleMoves(row, col, board, turn, clickesArr) {
             }
         }
     }
-    console.log(moves)
-    console.log(board)
     moves.push([row, col]); //this add to end of array the index of the moving piece
     return moves;
+}
+
+function chacksIfOpponnetStuck(turn, board){
+    //this function chacks if player is stuck
+    for(let i = 0;i<board.length;i++){
+        for(let j = 0;j<board[i].length;j++){
+            if(board[i][j] !== undefined && turn !== board[i][j].getColor() && board[i][j].isAquinn() === false){
+                if(board[i][j].cantMove(board) === false){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 window.addEventListener("load", (e) => {
@@ -202,6 +215,22 @@ window.addEventListener("load", (e) => {
            if the user clickes on img its chacked if this is the currect turn if so it show him the posible moves
            if the user clicked on anather turn piece it block him from do it
            if the user clicked on td [empty cell] so its chacked if it can be move ther if so it moves ale to nothing  */
+           //chacks for winner in stuck situation 
+
+        let arr = board.getBoard();
+        if(chacksIfOpponnetStuck("white", arr) === true && chacksIfOpponnetStuck("black", arr) !== true){
+            let p = document.getElementById("winner");
+            let mainDiv = document.getElementById("mainDiv");
+            mainDiv.style.display = "none";
+            p.textContent = "WHITE YOU ARE THE WINNER !";
+            playAgain.style.display = "flex";
+        }else if(chacksIfOpponnetStuck("white", arr) !== true && chacksIfOpponnetStuck("black", arr) === true){
+            let p = document.getElementById("winner");
+            let mainDiv = document.getElementById("mainDiv");
+            mainDiv.style.display = "none";
+            p.textContent = "BLACK YOU ARE THE WINNER !";
+            playAgain.style.display = "flex";
+        }
 
         if (e.target.tagName === "IMG") {
             let clickRow = e.target.parentElement.parentElement.rowIndex;
@@ -219,7 +248,6 @@ window.addEventListener("load", (e) => {
             clearPreviuseClick(board);
             addCurrentClick(board, clickRow, clickCol);
             moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr);
-            console.log(clickesArr[0].cantMove(board.getBoard()))
         }
 
         if (e.target.tagName === "TD") {
@@ -311,6 +339,7 @@ window.addEventListener("load", (e) => {
                 }
             }
         }
+
     });
 
 });

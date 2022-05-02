@@ -65,6 +65,7 @@ class Piece {
     }
 
     cantMove(board){
+        //this function chacks if solider is stuck if so return true else return false
         let tmp1 = 0;
         let tmp2 = 0;
         if(this.color === "black"){

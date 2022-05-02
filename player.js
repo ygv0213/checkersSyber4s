@@ -3,20 +3,6 @@ class Player{
         this.color = color;
         this.pieces = [];
         this.eatsNum = 0;
-        this.gutToEat = false;
-    }
-
-    chacksIfPayerMustEat(){
-        return;
-    }
-
-    chacksPlayerStuck(){
-        this.pieces.forEach((e)=>{
-            if(e.cantMove() === false){
-                return false;
-            }
-        });
-        return true;
     }
 
     getcolor(){
