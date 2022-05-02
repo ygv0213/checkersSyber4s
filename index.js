@@ -84,50 +84,66 @@ function posibleMoves(row, col, board, turn, clickesArr) {
                 }
             }
         }
+    }else if(board[row][col].isAquinn() === true && board[row][col].getColor() === turn) {
+        //this is the caculation of quinns posible moves
+        let options = [[1, 1], [-1, -1], [1, -1], [-1, 1]];
+        let tmp = 8;
+        moves = [];
 
-        let eatOption = false;
-        
-        //if there option to eat eatOption become to true
-        moves.forEach((move) => {
-            let tmp = 0;
-
-            if (turn === "black") {
-                tmp = 2;
-            } else if (turn === "white") {
-                tmp = -2;
-            }
-
-            if (clickesArr.length === 1 && clickesArr[0] !== undefined) {
-                if (move[0] === clickesArr[0].getRow() + tmp) {
-                    eatOption = true;
-                }
-            }
-        });
-        
-        //chacks if there is option to eat if so all other option will be removed
-        if(eatOption === true){
-            let tmp = 0;
-            let tmpMoves = [];
-
-            if (turn === "black") {
-                tmp = 2;
-            } else if (turn === "white") {
-                tmp = -2;
-            }
-
-            for (let i = 0; i < moves.length; i++) {
-                for (let j = 0; j < moves[i].length; j++) {
-                    if (moves[i][0] === clickesArr[0].getRow() + tmp) {
-                        tmpMoves.push(moves[i]);
-                    }else if (moves[i][0] !== clickesArr[0].getRow() + tmp) {
-                        table.rows[moves[i][0]].cells[moves[i][1]].classList.add("notOption");
+        for(let i=0;i<options.length;i++){
+            for(let j = 0;j<tmp;j++){
+                tmp = 8;
+                if (row + (options[i][0]*j) < 8 && col +(options[i][1]*j )< 8 && row + (options[i][0]*j) > -1 && col +(options[i][1]*j ) > -1) {
+                    if (board[row + (options[i][0]*j )][col + (options[i][1]*j )] === undefined) {
+                        moves.push([row + (options[i][0]*j ), col + (options[i][1]*j )]);
+                        table.rows[row + (options[i][0]*j )].cells[col + (options[i][1]*j )].classList.add("moves");
                     }
                 }
             }
-            moves = tmpMoves;
         }
     }
-    moves.push([row, col]);
+    
+    let eatOption = false;
+    //if there option to eat eatOption become to true
+    moves.forEach((move) => {
+        let tmp = 0;
+
+        if (turn === "black") {
+            tmp = 2;
+        } else if (turn === "white") {
+            tmp = -2;
+        }
+
+        if (clickesArr.length === 1 && clickesArr[0] !== undefined) {
+            if (move[0] === clickesArr[0].getRow() + tmp) {
+                eatOption = true;
+            }
+        }
+    });
+    
+    //chacks if there is option to eat if so all other option will be removed from moves array
+    if(eatOption === true){
+        let tmp = 0;
+        let tmpMoves = [];
+
+        if (turn === "black") {
+            tmp = 2;
+        } else if (turn === "white") {
+            tmp = -2;
+        }
+
+        for (let i = 0; i < moves.length; i++) {
+            for (let j = 0; j < moves[i].length; j++) {
+                if (moves[i][0] === clickesArr[0].getRow() + tmp) {
+                    tmpMoves.push(moves[i]);
+                }else if (moves[i][0] !== clickesArr[0].getRow() + tmp) {
+                    table.rows[moves[i][0]].cells[moves[i][1]].classList.add("notOption");
+                }
+            }
+        }
+        moves = tmpMoves;
+    }
+    moves.push([row, col]); //this add to end of array the index of the moving piece
     return moves;
 }
 
@@ -193,7 +209,7 @@ window.addEventListener("load", (e) => {
 
             clearPreviuseClick(board);
             addCurrentClick(board, clickRow, clickCol);
-            moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr, [board.getWhitePieces(), board.getBlackPieces()]);
+            moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr);
         }
 
         if (e.target.tagName === "TD") {
