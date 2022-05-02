@@ -84,6 +84,47 @@ function posibleMoves(row, col, board, turn, clickesArr) {
                 }
             }
         }
+    
+        let eatOption = false;
+        //if there option to eat eatOption become to true
+        moves.forEach((move) => {
+            let tmp = 0;
+    
+            if (turn === "black") {
+                tmp = 2;
+            } else if (turn === "white") {
+                tmp = -2;
+            }
+    
+            if (clickesArr.length === 1 && clickesArr[0] !== undefined) {
+                if (move[0] === clickesArr[0].getRow() + tmp) {
+                    eatOption = true;
+                }
+            }
+        });
+        
+        //chacks if there is option to eat if so all other option will be removed from moves array
+        if(eatOption === true){
+            let tmp = 0;
+            let tmpMoves = [];
+    
+            if (turn === "black") {
+                tmp = 2;
+            } else if (turn === "white") {
+                tmp = -2;
+            }
+    
+            for (let i = 0; i < moves.length; i++) {
+                for (let j = 0; j < moves[i].length; j++) {
+                    if (moves[i][0] === clickesArr[0].getRow() + tmp) {
+                        tmpMoves.push(moves[i]);
+                    }else if (moves[i][0] !== clickesArr[0].getRow() + tmp) {
+                        table.rows[moves[i][0]].cells[moves[i][1]].classList.add("notOption");
+                    }
+                }
+            }
+            moves = tmpMoves;
+        }
     }else if(board[row][col].isAquinn() === true && board[row][col].getColor() === turn) {
         //this is the caculation of quinns posible moves
         let options = [[1, 1], [-1, -1], [1, -1], [-1, 1]];
@@ -101,47 +142,6 @@ function posibleMoves(row, col, board, turn, clickesArr) {
                 }
             }
         }
-    }
-    
-    let eatOption = false;
-    //if there option to eat eatOption become to true
-    moves.forEach((move) => {
-        let tmp = 0;
-
-        if (turn === "black") {
-            tmp = 2;
-        } else if (turn === "white") {
-            tmp = -2;
-        }
-
-        if (clickesArr.length === 1 && clickesArr[0] !== undefined) {
-            if (move[0] === clickesArr[0].getRow() + tmp) {
-                eatOption = true;
-            }
-        }
-    });
-    
-    //chacks if there is option to eat if so all other option will be removed from moves array
-    if(eatOption === true){
-        let tmp = 0;
-        let tmpMoves = [];
-
-        if (turn === "black") {
-            tmp = 2;
-        } else if (turn === "white") {
-            tmp = -2;
-        }
-
-        for (let i = 0; i < moves.length; i++) {
-            for (let j = 0; j < moves[i].length; j++) {
-                if (moves[i][0] === clickesArr[0].getRow() + tmp) {
-                    tmpMoves.push(moves[i]);
-                }else if (moves[i][0] !== clickesArr[0].getRow() + tmp) {
-                    table.rows[moves[i][0]].cells[moves[i][1]].classList.add("notOption");
-                }
-            }
-        }
-        moves = tmpMoves;
     }
     moves.push([row, col]); //this add to end of array the index of the moving piece
     return moves;
@@ -198,12 +198,12 @@ window.addEventListener("load", (e) => {
             let clickRow = e.target.parentElement.parentElement.rowIndex;
             let clickCol = e.target.parentElement.cellIndex;
             //here i manege the turn system
-            if (clickesArr.length === 0 && e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png") {
+            if (clickesArr.length === 0 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") === turn + "Quinn.png")) {
                 clickesArr.push(board.getBoard()[clickRow][clickCol]);
-            } else if (clickesArr.length === 1 && e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png") {
+            } else if (clickesArr.length === 1 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") === turn + "Quinn.png")) {
                 clickesArr.push(board.getBoard()[clickRow][clickCol]);
                 clickesArr.shift();
-            } else if (clickesArr.length === 1 && e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") !== turn + "Piece.png") {
+            } else if (clickesArr.length === 1 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") !== turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") !== turn + "Quinn.png")) {
                 clickesArr = [];
             }
 
@@ -218,7 +218,7 @@ window.addEventListener("load", (e) => {
             let clickCol = e.target.cellIndex;
             let validMove = false;
             clearPreviuseClick(board);
-            //if you chouse to eat piece she will be removed and count of eating will go up
+            //if you choice to eat piece she will be removed and count of eating will go up
             if (clickesArr.length === 1) {
                 if(moves.length > 1){
                     if(turn === "black"){
@@ -269,7 +269,6 @@ window.addEventListener("load", (e) => {
                         validMove = true;
                     }
                 });
-
                 if (validMove === true) {
                     //change the turn and check if you need to turn the piece to quinn if so the piece turn to quinn
                     if (turn === "black") {
