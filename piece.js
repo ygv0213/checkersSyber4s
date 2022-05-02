@@ -64,4 +64,39 @@ class Piece {
         this.setImgSrc("assetes/"+this.color+"Quinn.png");
     }
 
+    cantMove(board){
+        let tmp1 = 0;
+        let tmp2 = 0;
+        if(this.color === "black"){
+            tmp1 = 1;
+            tmp2 = 2;
+        }else if(this.color === "white"){
+            tmp1 = -1;
+            tmp2 = -2;
+        }
+        if(this.row + tmp1 < 8 && this.col + 1 < 8 && this.row + tmp1 > -1){
+            if(board[this.row+tmp1][this.col+1] === undefined){
+                return false;
+            }else if(board[this.row+tmp1][this.col+1].getColor() !== this.color){
+                if(this.row + tmp2 < 8 && this.col + 2 < 8 && this.row + tmp1 > -1){
+                    if(board[this.row+tmp2][this.col+2] === undefined){
+                        return false;
+                    }
+                }
+            }
+        }
+        if(this.row + tmp1 < 8 && this.col - 1 > -1 && this.row + tmp1 > -1){
+            if(board[this.row+tmp1][this.col-1] === undefined){
+                return false;
+            }else if(board[this.row+tmp1][this.col-1].getColor() !== this.color){
+                if(this.row + tmp2 < 8 && this.col - 2 < 8 && this.row + tmp2 > -1){
+                    if(board[this.row+tmp2][this.col-2] === undefined){
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
 }

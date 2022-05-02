@@ -219,6 +219,7 @@ window.addEventListener("load", (e) => {
             clearPreviuseClick(board);
             addCurrentClick(board, clickRow, clickCol);
             moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr);
+            console.log(clickesArr[0].cantMove(board.getBoard()))
         }
 
         if (e.target.tagName === "TD") {
