@@ -135,14 +135,23 @@ function posibleMoves(row, col, board, turn, clickesArr) {
             for(let j = 0;j<tmp;j++){
                 tmp = 8;
                 if (row + (options[i][0]*j) < 8 && col +(options[i][1]*j )< 8 && row + (options[i][0]*j) > -1 && col +(options[i][1]*j ) > -1) {
-                    if (board[row + (options[i][0]*j )][col + (options[i][1]*j )] === undefined) {
+                    if (board[row + (options[i][0]*j )][col + (options[i][1]*j )] === undefined || board[row + (options[i][0]*j )][col + (options[i][1]*j )].getColor() != turn) {
                         moves.push([row + (options[i][0]*j ), col + (options[i][1]*j )]);
                         table.rows[row + (options[i][0]*j )].cells[col + (options[i][1]*j )].classList.add("moves");
                     }
                 }
             }
         }
+
+        for(let i= 0 ; i< moves.length;i++){
+            if(board[moves[i][0]][moves[i][1]] !== undefined){
+                moves.splice(i, moves.length);
+                break;
+            }
+        }
     }
+    console.log(moves)
+    console.log(board)
     moves.push([row, col]); //this add to end of array the index of the moving piece
     return moves;
 }
@@ -219,7 +228,7 @@ window.addEventListener("load", (e) => {
             let validMove = false;
             clearPreviuseClick(board);
             //if you choice to eat piece she will be removed and count of eating will go up
-            if (clickesArr.length === 1) {
+            if (clickesArr.length === 1 && clickesArr[0].isAquinn() === false) {
                 if(moves.length > 1){
                     if(turn === "black"){
                         if(moves[moves.length-1][0] === clickRow - 2){
@@ -283,12 +292,21 @@ window.addEventListener("load", (e) => {
                         }
                     }
                     //if the move is valid then move the piece
-                    board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
-                    clickesArr[0].setIndex(clickRow, clickCol);
-                    board.getBoard()[clickRow][clickCol] = clickesArr[0];
-                    clickesArr[0].draw(e.target);
-                    clickesArr = [];
-                    visualTurn.textContent = "This is " + turn + " turn now";
+                    if(!clickesArr[0].isAquinn()){
+                        board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
+                        clickesArr[0].setIndex(clickRow, clickCol);
+                        board.getBoard()[clickRow][clickCol] = clickesArr[0];
+                        clickesArr[0].draw(e.target);
+                        clickesArr = [];
+                        visualTurn.textContent = "This is " + turn + " turn now";
+                    }else{
+                        board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
+                        clickesArr[0].setIndex(clickRow, clickCol);
+                        board.getBoard()[clickRow][clickCol] = clickesArr[0];
+                        clickesArr[0].draw(e.target);
+                        clickesArr = [];
+                        visualTurn.textContent = "This is " + turn + " turn now";
+                    }
                 }
             }
         }

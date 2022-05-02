@@ -3,6 +3,7 @@ class Player{
         this.color = color;
         this.pieces = [];
         this.eatsNum = 0;
+        this.isStuck = false;
     }
 
     getcolor(){
@@ -11,6 +12,14 @@ class Player{
 
     getPieces(){
         return this.pieces;
+    }
+
+    getIsStuck(){
+        return this.isStuck;
+    }
+
+    setIsStuck(val){
+        this.isStuck = val;
     }
 
     mackPlayer(){
