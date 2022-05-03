@@ -53,6 +53,8 @@ window.addEventListener("load", (e) => {
             clearPreviuseClick(board);
             addCurrentClick(board, clickRow, clickCol);
             moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr);
+            eatOptions = playerEatOptions(board.getBoard(), turn, clickesArr);
+            console.log(eatOptions)
         }
 
         if (e.target.tagName === "TD") {
@@ -118,6 +120,7 @@ window.addEventListener("load", (e) => {
                     if(!clickesArr[0].isAquinn()){
                         clickesArr = movePiece(board, clickesArr, clickRow, clickCol, e, visualTurn, turn);
                     }else{
+                        //add support in quinns for later
                         clickesArr = movePiece(board, clickesArr, clickRow, clickCol, e, visualTurn, turn)
                     }
                 }
