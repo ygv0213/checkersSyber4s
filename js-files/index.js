@@ -57,19 +57,19 @@ window.addEventListener("load", (e) => {
             addCurrentClick(board, clickRow, clickCol);
             moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr);
             eatOptions = playerEatOptions(board.getBoard(), turn, clickesArr);
-        
+
             //this here chacks if there is option to eat if so the moves array will be updated 
             //and then the player can to move only to were is the eat
-            
-            if(eatOptions.length > 0){
-                eatOptions.forEach((row)=>{
-                    for(let i=0;i<moves.length-1;i++){
-                        if(row[0] === moves[i][0] && row[1] === moves[i][1]){
+
+            if (eatOptions.length > 0) {
+                eatOptions.forEach((row) => {
+                    for (let i = 0; i < moves.length - 1; i++) {
+                        if (row[0] === moves[i][0] && row[1] === moves[i][1]) {
                             tmpMoves.push(row);
                         }
                     }
                 });
-                tmpMoves.push(moves[moves.length-1]);
+                tmpMoves.push(moves[moves.length - 1]);
                 moves = tmpMoves;
             }
         }
@@ -83,34 +83,34 @@ window.addEventListener("load", (e) => {
             clearPreviuseClick(board);
             //if you choice to eat piece she will be removed and count of eating will go up
             if (clickesArr.length === 1 && clickesArr[0].isAquinn() === false) {
-                if(moves.length > 1){
-                    if(turn === "black"){
-                        if(moves[moves.length-1][0] === clickRow - 2){
-                            if(clickCol < moves[moves.length-1][1]){
-                                eatPiece(board, clickRow-1, clickCol+1);
-                                whiteEats ++;
-                            }else if(clickCol > moves[moves.length-1][1]){
-                                whiteEats ++;
-                                eatPiece(board, clickRow-1, clickCol-1);
+                if (moves.length > 1) {
+                    if (turn === "black") {
+                        if (moves[moves.length - 1][0] === clickRow - 2) {
+                            if (clickCol < moves[moves.length - 1][1]) {
+                                eatPiece(board, clickRow - 1, clickCol + 1);
+                                whiteEats++;
+                            } else if (clickCol > moves[moves.length - 1][1]) {
+                                whiteEats++;
+                                eatPiece(board, clickRow - 1, clickCol - 1);
                             }
                         }
-                    }else if(turn === "white"){
-                        if(moves[moves.length-1][0] === clickRow + 2){
-                            if(clickCol < moves[moves.length-1][1]){
-                                eatPiece(board, clickRow+1, clickCol+1);
-                                blackEats ++;
-                            }else if(clickCol > moves[moves.length-1][1]){
-                                eatPiece(board, clickRow+1, clickCol-1);
-                                blackEats ++;
+                    } else if (turn === "white") {
+                        if (moves[moves.length - 1][0] === clickRow + 2) {
+                            if (clickCol < moves[moves.length - 1][1]) {
+                                eatPiece(board, clickRow + 1, clickCol + 1);
+                                blackEats++;
+                            } else if (clickCol > moves[moves.length - 1][1]) {
+                                eatPiece(board, clickRow + 1, clickCol - 1);
+                                blackEats++;
                             }
                         }
                     }
                 }
-                
+
                 //chacks for winner
-                if(whiteEats === 12){
+                if (whiteEats === 12) {
                     chacksForRegularWin(turn, playAgain);
-                }else if(blackEats === 12){
+                } else if (blackEats === 12) {
                     chacksForRegularWin(turn, playAgain);
                 }
 
@@ -134,9 +134,9 @@ window.addEventListener("load", (e) => {
                         }
                     }
                     //if the move is valid then move the piece
-                    if(!clickesArr[0].isAquinn()){
+                    if (!clickesArr[0].isAquinn()) {
                         clickesArr = movePiece(board, clickesArr, clickRow, clickCol, e, visualTurn, turn);
-                    }else{
+                    } else {
                         //add support in quinns for later
                         clickesArr = movePiece(board, clickesArr, clickRow, clickCol, e, visualTurn, turn)
                     }
