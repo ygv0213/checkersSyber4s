@@ -27,6 +27,19 @@ function addCurrentClick(board, clickRow, clickCol) {
     }
 }
 
+function manegeTurnSystem(turn, board, clickesArr, e, clickRow, clickCol){
+    //here i manege the turn system
+    if (clickesArr.length === 0 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") === turn + "Quinn.png")) {
+        clickesArr.push(board.getBoard()[clickRow][clickCol]);
+    } else if (clickesArr.length === 1 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") === turn + "Quinn.png")) {
+        clickesArr.push(board.getBoard()[clickRow][clickCol]);
+        clickesArr.shift();
+    } else if (clickesArr.length === 1 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") !== turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") !== turn + "Quinn.png")) {
+        clickesArr = [];
+    }
+    return clickesArr;
+}
+
 function posibleMoves(row, col, board, turn, clickesArr) {
     //this function decided where the piece can go on the board
     let moves = [];
@@ -175,6 +188,11 @@ function chacksIfOpponnetStuck(turn, board){
     playAgain.style.display = "flex";
 }
 
+function eatPiece(board, clickRow, clickCol){
+    board.getBoard()[clickRow][clickCol].removeImgFromTd();
+    board.getBoard()[clickRow][clickCol] = undefined;
+}
+
 window.addEventListener("load", (e) => {
     let turn = undefined;
     let choseColor = document.getElementById("choseColor1");
@@ -225,16 +243,7 @@ window.addEventListener("load", (e) => {
             let clickRow = e.target.parentElement.parentElement.rowIndex;
             let clickCol = e.target.parentElement.cellIndex;
             chacksIfOpponnetStuck(turn, board.getBoard());
-            //here i manege the turn system
-            if (clickesArr.length === 0 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") === turn + "Quinn.png")) {
-                clickesArr.push(board.getBoard()[clickRow][clickCol]);
-            } else if (clickesArr.length === 1 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") === turn + "Quinn.png")) {
-                clickesArr.push(board.getBoard()[clickRow][clickCol]);
-                clickesArr.shift();
-            } else if (clickesArr.length === 1 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") !== turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") !== turn + "Quinn.png")) {
-                clickesArr = [];
-            }
-
+            clickesArr = manegeTurnSystem(turn, board, clickesArr, e, clickRow, clickCol);
             clearPreviuseClick(board);
             addCurrentClick(board, clickRow, clickCol);
             moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr);
@@ -253,24 +262,20 @@ window.addEventListener("load", (e) => {
                     if(turn === "black"){
                         if(moves[moves.length-1][0] === clickRow - 2){
                             if(clickCol < moves[moves.length-1][1]){
-                                board.getBoard()[clickRow-1][clickCol+1].removeImgFromTd();
-                                board.getBoard()[clickRow-1][clickCol+1] = undefined;
+                                eatPiece(board, clickRow-1, clickCol+1);
                                 whiteEats ++;
                             }else if(clickCol > moves[moves.length-1][1]){
-                                board.getBoard()[clickRow-1][clickCol-1].removeImgFromTd();
-                                board.getBoard()[clickRow-1][clickCol-1] = undefined;
                                 whiteEats ++;
+                                eatPiece(board, clickRow-1, clickCol-1);
                             }
                         }
                     }else if(turn === "white"){
                         if(moves[moves.length-1][0] === clickRow + 2){
                             if(clickCol < moves[moves.length-1][1]){
-                                board.getBoard()[clickRow+1][clickCol+1].removeImgFromTd();
-                                board.getBoard()[clickRow+1][clickCol+1] = undefined;
+                                eatPiece(board, clickRow+1, clickCol+1);
                                 blackEats ++;
                             }else if(clickCol > moves[moves.length-1][1]){
-                                board.getBoard()[clickRow+1][clickCol-1].removeImgFromTd();
-                                board.getBoard()[clickRow+1][clickCol-1] = undefined;
+                                eatPiece(board, clickRow+1, clickCol-1);
                                 blackEats ++;
                             }
                         }
