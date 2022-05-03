@@ -161,12 +161,18 @@ function chacksIfOpponnetStuck(turn, board){
         for(let j = 0;j<board[i].length;j++){
             if(board[i][j] !== undefined && turn !== board[i][j].getColor() && board[i][j].isAquinn() === false){
                 if(board[i][j].cantMove(board) === false){
-                    return false;
+                    return;
                 }
             }
         }
     }
-    return true;
+    //chacks for winner in stuck situation 
+    let p = document.getElementById("winner");
+    let mainDiv = document.getElementById("mainDiv");
+    let playAgain = document.getElementById("showWinning");
+    mainDiv.style.display = "none";
+    p.textContent = turn.toUpperCase() + " YOU ARE THE WINNER !";
+    playAgain.style.display = "flex";
 }
 
 window.addEventListener("load", (e) => {
@@ -206,7 +212,6 @@ window.addEventListener("load", (e) => {
     playAgain.addEventListener("click", (e) => {
         if (e.target.id === "playAgain") {
             window.location.reload();
-            console.log("end")
         }
     });
 
@@ -215,26 +220,11 @@ window.addEventListener("load", (e) => {
            if the user clickes on img its chacked if this is the currect turn if so it show him the posible moves
            if the user clicked on anather turn piece it block him from do it
            if the user clicked on td [empty cell] so its chacked if it can be move ther if so it moves ale to nothing  */
-           //chacks for winner in stuck situation 
-
-        let arr = board.getBoard();
-        if(chacksIfOpponnetStuck("white", arr) === true && chacksIfOpponnetStuck("black", arr) !== true){
-            let p = document.getElementById("winner");
-            let mainDiv = document.getElementById("mainDiv");
-            mainDiv.style.display = "none";
-            p.textContent = "WHITE YOU ARE THE WINNER !";
-            playAgain.style.display = "flex";
-        }else if(chacksIfOpponnetStuck("white", arr) !== true && chacksIfOpponnetStuck("black", arr) === true){
-            let p = document.getElementById("winner");
-            let mainDiv = document.getElementById("mainDiv");
-            mainDiv.style.display = "none";
-            p.textContent = "BLACK YOU ARE THE WINNER !";
-            playAgain.style.display = "flex";
-        }
 
         if (e.target.tagName === "IMG") {
             let clickRow = e.target.parentElement.parentElement.rowIndex;
             let clickCol = e.target.parentElement.cellIndex;
+            chacksIfOpponnetStuck(turn, board.getBoard());
             //here i manege the turn system
             if (clickesArr.length === 0 && (e.target.src.toString().split('/').find((element) => element === turn + "Piece.png") === turn + "Piece.png" || e.target.src.toString().split('/').find((element) => element === turn + "Quinn.png") === turn + "Quinn.png")) {
                 clickesArr.push(board.getBoard()[clickRow][clickCol]);
@@ -255,6 +245,7 @@ window.addEventListener("load", (e) => {
             let clickRow = e.target.parentElement.rowIndex;
             let clickCol = e.target.cellIndex;
             let validMove = false;
+            chacksIfOpponnetStuck(turn, board.getBoard());
             clearPreviuseClick(board);
             //if you choice to eat piece she will be removed and count of eating will go up
             if (clickesArr.length === 1 && clickesArr[0].isAquinn() === false) {
