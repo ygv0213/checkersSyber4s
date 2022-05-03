@@ -162,32 +162,10 @@ function posibleMoves(row, col, board, turn, clickesArr) {
             }
             moves = tmpMoves;
         }
-    } else if (board[row][col].isAquinn() === true && board[row][col].getColor() === turn) {
-        //this is the posible moves to quinns
-        //here i am
-        let options = [[1, 1], [-1, -1], [1, -1], [-1, 1]];
-        let tmp = 8;
-        moves = [];
-
-        for (let i = 0; i < options.length; i++) {
-            for (let j = 0; j < tmp; j++) {
-                tmp = 8;
-                if (row + (options[i][0] * j) < 8 && col + (options[i][1] * j) < 8 && row + (options[i][0] * j) > -1 && col + (options[i][1] * j) > -1) {
-                    if (board[row + (options[i][0] * j)][col + (options[i][1] * j)] === undefined || board[row + (options[i][0] * j)][col + (options[i][1] * j)].getColor() != turn) {
-                        moves.push([row + (options[i][0] * j), col + (options[i][1] * j)]);
-                        table.rows[row + (options[i][0] * j)].cells[col + (options[i][1] * j)].classList.add("moves");
-                    }
-                }
-            }
-        }
-
-        for (let i = 0; i < moves.length; i++) {
-            if (board[moves[i][0]][moves[i][1]] !== undefined) {
-                moves.splice(i, moves.length);
-                break;
-            }
-        }
     }
+    
+    //here i need do add moves to quinns
+
     //this add to end of the array the index of the moving piece to be yused later
     moves.push([row, col]);
     return moves;
@@ -246,7 +224,11 @@ function posibleMovesWithoutColoring(row, col, board, turn) {
         }
 
     }
-    moves.push([row, col]); //this add to end of array the index of the moving piece
+    
+    //here i need do add moves to quinns
+    //this add to end of array the index of the moving piece
+
+    moves.push([row, col]);
     return moves;
 }
 
