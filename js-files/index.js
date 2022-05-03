@@ -10,6 +10,7 @@ window.addEventListener("load", (e) => {
     let clickesArr = [];
 
     let moves = [];
+    let eatOptions = [];
 
     let whiteEats = 0;
     let blackEats = 0;
@@ -89,17 +90,9 @@ window.addEventListener("load", (e) => {
                 
                 //chacks for winner
                 if(whiteEats === 12){
-                    let p = document.getElementById("winner");
-                    let mainDiv = document.getElementById("mainDiv");
-                    mainDiv.style.display = "none";
-                    p.textContent = turn.toUpperCase() + " YOU ARE THE WINNER !";
-                    playAgain.style.display = "flex";
+                    chacksForRegularWin(turn, playAgain);
                 }else if(blackEats === 12){
-                    let p = document.getElementById("winner");
-                    let mainDiv = document.getElementById("mainDiv");
-                    mainDiv.style.display = "none";
-                    p.textContent = turn.toUpperCase() + " YOU ARE THE WINNER !";
-                    playAgain.style.display = "flex";
+                    chacksForRegularWin(turn, playAgain);
                 }
 
                 //chacks if the move is valid [valide moves store in moves array]
@@ -123,19 +116,9 @@ window.addEventListener("load", (e) => {
                     }
                     //if the move is valid then move the piece
                     if(!clickesArr[0].isAquinn()){
-                        board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
-                        clickesArr[0].setIndex(clickRow, clickCol);
-                        board.getBoard()[clickRow][clickCol] = clickesArr[0];
-                        clickesArr[0].draw(e.target);
-                        clickesArr = [];
-                        visualTurn.textContent = "This is " + turn + " turn now";
+                        clickesArr = movePiece(board, clickesArr, clickRow, clickCol, e, visualTurn, turn);
                     }else{
-                        board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
-                        clickesArr[0].setIndex(clickRow, clickCol);
-                        board.getBoard()[clickRow][clickCol] = clickesArr[0];
-                        clickesArr[0].draw(e.target);
-                        clickesArr = [];
-                        visualTurn.textContent = "This is " + turn + " turn now";
+                        clickesArr = movePiece(board, clickesArr, clickRow, clickCol, e, visualTurn, turn)
                     }
                 }
             }

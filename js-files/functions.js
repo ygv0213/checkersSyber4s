@@ -40,6 +40,25 @@ function manegeTurnSystem(turn, board, clickesArr, e, clickRow, clickCol){
     return clickesArr;
 }
 
+function movePiece(board, clickesArr, clickRow, clickCol, e, visualTurn, turn){
+    board.getBoard()[clickesArr[0].getRow()][clickesArr[0].getCol()] = undefined;
+    clickesArr[0].setIndex(clickRow, clickCol);
+    board.getBoard()[clickRow][clickCol] = clickesArr[0];
+    clickesArr[0].draw(e.target);
+    clickesArr = [];
+    visualTurn.textContent = "This is " + turn + " turn now";
+    return clickesArr;
+}
+
+function chacksForRegularWin(turn, playAgain){
+    //this function chacks for regular winning [not stuck one]
+    let p = document.getElementById("winner");
+    let mainDiv = document.getElementById("mainDiv");
+    mainDiv.style.display = "none";
+    p.textContent = turn.toUpperCase() + " YOU ARE THE WINNER !";
+    playAgain.style.display = "flex";
+}
+
 function posibleMoves(row, col, board, turn, clickesArr) {
     //this function decided where the piece can go on the board
     let moves = [];
@@ -191,4 +210,10 @@ function chacksIfOpponnetStuck(turn, board){
 function eatPiece(board, clickRow, clickCol){
     board.getBoard()[clickRow][clickCol].removeImgFromTd();
     board.getBoard()[clickRow][clickCol] = undefined;
+}
+
+function canEat(turn, board){
+    let eatsOptions = [];
+
+    return eatsOptions;
 }
