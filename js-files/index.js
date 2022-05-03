@@ -45,16 +45,33 @@ window.addEventListener("load", (e) => {
            if the user clicked on anather turn piece it block him from do it
            if the user clicked on td [empty cell] so its chacked if it can be move ther if so it moves ale to nothing  */
 
+        let tmpMoves = [];
+
         if (e.target.tagName === "IMG") {
             let clickRow = e.target.parentElement.parentElement.rowIndex;
             let clickCol = e.target.parentElement.cellIndex;
+
             chacksIfOpponnetStuck(turn, board.getBoard());
             clickesArr = manegeTurnSystem(turn, board, clickesArr, e, clickRow, clickCol);
             clearPreviuseClick(board);
             addCurrentClick(board, clickRow, clickCol);
             moves = posibleMoves(clickRow, clickCol, board.getBoard(), turn, clickesArr);
             eatOptions = playerEatOptions(board.getBoard(), turn, clickesArr);
-            console.log(eatOptions)
+        
+            //this here chacks if there is option to eat if so the moves array will be updated 
+            //and then the player can to move only to were is the eat
+            
+            if(eatOptions.length > 0){
+                eatOptions.forEach((row)=>{
+                    for(let i=0;i<moves.length-1;i++){
+                        if(row[0] === moves[i][0] && row[1] === moves[i][1]){
+                            tmpMoves.push(row);
+                        }
+                    }
+                });
+                tmpMoves.push(moves[moves.length-1]);
+                moves = tmpMoves;
+            }
         }
 
         if (e.target.tagName === "TD") {

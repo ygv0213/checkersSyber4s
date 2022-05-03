@@ -187,7 +187,7 @@ function posibleMoves(row, col, board, turn, clickesArr) {
     return moves;
 }
 
-function posibleMovesWithoutColoring(row, col, board, turn, clickesArr) {
+function posibleMovesWithoutColoring(row, col, board, turn) {
     //this function decided where the piece can go on the board
     let moves = [];
 
@@ -238,44 +238,6 @@ function posibleMovesWithoutColoring(row, col, board, turn, clickesArr) {
             }
         }
     
-        let eatOption = false;
-        //if there option to eat eatOption become to true
-        moves.forEach((move) => {
-            let tmp = 0;
-    
-            if (turn === "black") {
-                tmp = 2;
-            } else if (turn === "white") {
-                tmp = -2;
-            }
-    
-            if (clickesArr.length === 1 && clickesArr[0] !== undefined) {
-                if (move[0] === clickesArr[0].getRow() + tmp) {
-                    eatOption = true;
-                }
-            }
-        });
-        
-        //chacks if there is option to eat if so all other option will be removed from moves array
-        if(eatOption === true){
-            let tmp = 0;
-            let tmpMoves = [];
-    
-            if (turn === "black") {
-                tmp = 2;
-            } else if (turn === "white") {
-                tmp = -2;
-            }
-    
-            for (let i = 0; i < moves.length; i++) {
-                for (let j = 0; j < moves[i].length; j++) {
-                    if (moves[i][0] === clickesArr[0].getRow() + tmp) {
-                        tmpMoves.push(moves[i]);
-                    }
-                }
-            }
-            moves = tmpMoves;
-        }
     }else if(board[row][col].isAquinn() === true && board[row][col].getColor() === turn) {
         //this is the posible moves to quinns
         let options = [[1, 1], [-1, -1], [1, -1], [-1, 1]];
@@ -339,7 +301,7 @@ function playerEatOptions(board, turn, clickesArr){
     for(let i = 0;i<board.length;i++){
         for(let j =0;j<board[i].length;j++){
             if(board[i][j] !== undefined && board[i][j].getColor() === turn){
-                pieceMoves = posibleMovesWithoutColoring(board[i][j].getRow(), board[i][j].getCol(), board, turn, clickesArr);
+                pieceMoves = posibleMovesWithoutColoring(board[i][j].getRow(), board[i][j].getCol(), board, turn);
                 if(pieceMoves.length >= 2){
                     for(let x=0;x<pieceMoves.length-1;x++){
                         if(pieceMoves[x][0]+2 === pieceMoves[pieceMoves.length-1][0] || pieceMoves[x][0]-2 === pieceMoves[pieceMoves.length-1][0]){
