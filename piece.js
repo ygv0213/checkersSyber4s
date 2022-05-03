@@ -79,7 +79,7 @@ class Piece {
             if(board[this.row+tmp1][this.col+1] === undefined){
                 return false;
             }else if(board[this.row+tmp1][this.col+1].getColor() !== this.color){
-                if(this.row + tmp2 < 8 && this.col + 2 < 8 && this.row + tmp1 > -1){
+                if(this.row + tmp2 < 8 && this.col + 2 < 8 && this.row + tmp2 > -1){
                     if(board[this.row+tmp2][this.col+2] === undefined){
                         return false;
                     }
@@ -90,7 +90,7 @@ class Piece {
             if(board[this.row+tmp1][this.col-1] === undefined){
                 return false;
             }else if(board[this.row+tmp1][this.col-1].getColor() !== this.color){
-                if(this.row + tmp2 < 8 && this.col - 2 < 8 && this.row + tmp2 > -1){
+                if(this.row + tmp2 < 8 && this.col - 2 > -1 && this.row + tmp2 > -1){
                     if(board[this.row+tmp2][this.col-2] === undefined){
                         return false;
                     }
