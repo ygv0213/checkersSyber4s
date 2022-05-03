@@ -164,6 +164,7 @@ function posibleMoves(row, col, board, turn, clickesArr) {
         }
     } else if (board[row][col].isAquinn() === true && board[row][col].getColor() === turn) {
         //this is the posible moves to quinns
+        //here i am
         let options = [[1, 1], [-1, -1], [1, -1], [-1, 1]];
         let tmp = 8;
         moves = [];
@@ -244,30 +245,6 @@ function posibleMovesWithoutColoring(row, col, board, turn) {
             }
         }
 
-    } else if (board[row][col].isAquinn() === true && board[row][col].getColor() === turn) {
-        //this is the posible moves to quinns
-        let options = [[1, 1], [-1, -1], [1, -1], [-1, 1]];
-        let tmp = 8;
-        moves = [];
-
-        for (let i = 0; i < options.length; i++) {
-            for (let j = 0; j < tmp; j++) {
-                tmp = 8;
-                if (row + (options[i][0] * j) < 8 && col + (options[i][1] * j) < 8 && row + (options[i][0] * j) > -1 && col + (options[i][1] * j) > -1) {
-                    if (board[row + (options[i][0] * j)][col + (options[i][1] * j)] === undefined || board[row + (options[i][0] * j)][col + (options[i][1] * j)].getColor() != turn) {
-                        moves.push([row + (options[i][0] * j), col + (options[i][1] * j)]);
-                        table.rows[row + (options[i][0] * j)].cells[col + (options[i][1] * j)].classList.add("moves");
-                    }
-                }
-            }
-        }
-
-        for (let i = 0; i < moves.length; i++) {
-            if (board[moves[i][0]][moves[i][1]] !== undefined) {
-                moves.splice(i, moves.length);
-                break;
-            }
-        }
     }
     moves.push([row, col]); //this add to end of array the index of the moving piece
     return moves;

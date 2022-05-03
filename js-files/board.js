@@ -60,6 +60,16 @@ class Board {
                 });
                 tr.appendChild(td);
             }
+            //need to remove this code below
+
+            if(i === 2){
+                this.board[i][1].mackQuinn();
+                this.board[i][7].mackQuinn();
+            }
+            if(i === 5){
+                this.board[i][2].mackQuinn();
+                this.board[i][4].mackQuinn();
+            }
             table.appendChild(tr);
         }
         div.appendChild(table);
