@@ -1,9 +1,4 @@
 # checkersSyber4s
-
-down below there is the project explanation video
-----------------------------------------------------
-https://drive.google.com/file/d/1PGkBPNkF0Gq1toYHZesbv1pk_ZHs1nxs/view?usp=sharing
-
 bugs:
     1) quinns cant move they stuck in the end of the board
 
