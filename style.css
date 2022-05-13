@@ -14,13 +14,14 @@ body{
     height: fit-content;
     background-color: rgb(19, 19, 19);
     padding-block: 25px;
-    border: 3px solid rgb(21, 1, 99);
+    border: 1px solid rgb(21, 1, 99);
     font-size: 24px;
     font-weight: 900;
     font-family: monospace;
     padding-inline: 25px;
     color: aliceblue;
     border-radius: 15px;
+    box-shadow: 3px 3px 7px 0px rgb(34, 34, 34);
 }
 
 #visualTurn {
@@ -39,6 +40,7 @@ body{
     justify-content: center;
     color: rgb(25, 23, 23);
     margin: 0;
+    box-shadow: 3px 3px 7px 0px rgb(14, 14, 14);
 }
 
 #sendBtn {
@@ -77,6 +79,7 @@ body{
     height: 520px;
     background-color: rgb(224, 185, 30);
     outline: 3px solid black;
+    box-shadow: 7px 7px 14px 0px rgb(14, 14, 14);
 }
 
 table{
